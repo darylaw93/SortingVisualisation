@@ -1,0 +1,9 @@
+.App {
+  text-align: center;
+}
+
+.VerticalBar {
+  background-color: black;
+  float: left;
+  margin: 10px;
+}
