@@ -1,6 +1,7 @@
 import React from "react";
 
 const Graph = ({ data, loading }) => {
+  
   console.log("graph component", data);
   let graphs = data.map((element, index) => {
     return (
@@ -9,7 +10,7 @@ const Graph = ({ data, loading }) => {
         style={{ height: `${element}px`, width: "10px" }}
         key={index}
       >
-        <div style={{marginTop: '100px'}}>{element}</div>
+        <div style={{marginTop: `${element+5}px`}}>{element}</div>
       </div>
     );
   });
