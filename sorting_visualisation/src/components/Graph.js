@@ -1,20 +1,19 @@
 import React from "react";
 
-const Graph = ({data,loading}) => {
-  console.log("graph component", data)
-    let graphs = data.map((element) => {
+const Graph = ({ data, loading }) => {
+  console.log("graph component", data);
+  let graphs = data.map((element, index) => {
     return (
       <div
         className="VerticalBar"
         style={{ height: `${element}px`, width: "10px" }}
-      ></div>
+        key={index}
+      >
+        <div style={{marginTop: '100px'}}>{element}</div>
+      </div>
     );
   });
-      return (
-    <>
-      {graphs}
-    </>
-  );
-  }
+  return <>{graphs}</>;
+};
 
 export default Graph;
