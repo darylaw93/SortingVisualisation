@@ -4,28 +4,58 @@ import { Navbar, Nav, Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Graph from "./components/Graph.js";
 
-const bubbleSort = (arr) => {
-  for (let i = 0; i < arr.length; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j] > arr[j + 1]) {
-        let current = arr[j];
-        arr[j] = arr[j + 1];
-        arr[j + 1] = current;
+let container = document.getElementById("array");
+let blocks = document.getElementsByClassName("block");
+const swap = (block1, block2) => {
+  return new Promise((resolve) => {
+    let temp = block1.style.transform;
+    block1.style.transform = block2.style.transform;
+    block2.style.transform = temp;
+
+    window.requestAnimationFrame(() => {
+      console.log(container);
+      setTimeout(() => {
+        container?.insertBefore(block2, block1);
+        resolve();
+      }, 500);
+    });
+  });
+};
+
+const bubbleSort = async (delay = 500) => {
+  for (let i = 0; i < blocks.length; i++) {
+    for (let j = 0; j < blocks.length - i - 1; j++) {
+      blocks[j].style.backgroundColor = "#FF4949";
+      blocks[j + 1].style.backgroundColor = "#ff4949";
+
+      await new Promise((resolve) =>
+        setTimeout(() => {
+          resolve();
+        }, delay)
+      );
+
+      let value1 = Number(blocks[j].childNodes[0].innerText);
+      let value2 = Number(blocks[j + 1].childNodes[0].innerText);
+      if (value1 > value2) {
+        await swap(blocks[j], blocks[j + 1]);
+        blocks = document.querySelectorAll(".block");
       }
+      blocks[j].style.backgroundColor = "#6b5b95";
+      blocks[j + 1].style.backgroundColor = "#6b5b95";
     }
+    blocks[blocks.length - i - 1].style.backgroundColor = "#13CE66";
   }
-  return arr;
 };
 
 function App() {
-  const [dataArray, setDataArray] = useState([]);
+  const [datablocksay, setDatablocksay] = useState([]);
   const [state, dispatch] = useReducer(reducer, "");
-  let arr = [];
+  let blocks = [];
 
   function reducer(state, action) {
     switch (action.type) {
       case "bubble":
-        return console.log("bubble sort activated"), bubbleSort(dataArray);
+        return console.log("bubble sort activated"), bubbleSort(datablocksay);
       case "quick":
         return console.log("quick sort activated");
       case "merge":
@@ -36,15 +66,16 @@ function App() {
         throw new Error();
     }
   }
-  const generateArray = (event) => {
+
+  const generateblocksay = (event) => {
     event.preventDefault();
-    arr = [];
+    blocks = [];
     for (let i = 0; i < 40; i++) {
       console.log("generating...");
       let value = Math.ceil(Math.random() * 99);
-      arr.push(value);
+      blocks.push(value);
     }
-    setDataArray(arr);
+    setDatablocksay(blocks);
   };
 
   return (
@@ -52,7 +83,7 @@ function App() {
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Navbar.Brand onClick={generateArray}>Generate</Navbar.Brand>
+          <Navbar.Brand onClick={generateblocksay}>Generate</Navbar.Brand>
           <Navbar.Brand onClick={() => dispatch({ type: "bubble" })}>
             Bubble Sort
           </Navbar.Brand>
@@ -60,7 +91,9 @@ function App() {
           <Nav className="me-auto"></Nav>
         </Container>
       </Navbar>
-      <Graph data={dataArray} />
+      <div id="array">
+        <Graph data={datablocksay} />
+      </div>
     </div>
   );
 }

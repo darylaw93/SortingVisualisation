@@ -2,8 +2,14 @@
   text-align: center;
 }
 
-.VerticalBar {
+.block {
+  width: 28px;
   background-color: black;
   float: left;
   margin: 10px;
+  transition: 0.2s all ease;
+}
+
+.block {
+  background-color: black;
 }
